@@ -1,0 +1,47 @@
+@page "/Weight"
+@using AppCore
+@using AppCore.Weight
+@using AppCore.Weight.Validation
+<h3>Cetegorias de pesos</h3>
+
+<EditForm Model="_weightClass" OnValidSubmit="SaveOnValidSubmit">
+   <FluentValidator TValidator="WeightCategoryValidation" />
+   <ValidationSummary />
+    <div class="row">
+        <label for="name">Nome do Peso</label>
+        <InputText @bind-Value="_weightClass.Name" class="form-control" id="name" />
+
+    </div>
+    <div class="row">
+        <label class="form-label" for="weight">Categoria de Peso</label>
+        <InputNumber @bind-Value="_weightClass.Weight" class="form-control" id="weight"/>
+    </div>
+    <div class="row">
+        <label class="form-label" for="weightType">Tipo de Peso:</label>
+        <InputSelect @bind-Value="_weightClass.WeightType" class="form-control" id="weightType">
+            <option value="@WeightType.Under">Menos</option>
+            <option value="@WeightType.Over">Mais</option>
+        </InputSelect>
+    </div>
+    <br>
+    <div class="row">
+        <input type="submit" class="btn btn-primary">
+    </div>
+
+
+</EditForm>
+
+@code {
+
+    readonly WeightCategory _weightClass = new();
+    
+    void SaveOnValidSubmit()
+    {
+
+        var validator = new WeightCategoryValidation();
+        var result = validator.Validate(_weightClass);
+        Console.WriteLine(_weightClass.Name);
+    }
+    
+    
+}
